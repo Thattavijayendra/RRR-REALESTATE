@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { buildApiUrl, parseApiResponse } from '@/config/api'
 
 export interface Dealer {
   _id: string
@@ -36,8 +37,6 @@ interface RegisterData {
   }
 }
 
-const API_URL = import.meta.env.VITE_API_URL
-
 export const useDealerStore = create<DealerState>()(
   persist(
     (set) => ({
@@ -50,13 +49,13 @@ export const useDealerStore = create<DealerState>()(
       login: async (email: string, password: string) => {
         set({ isLoading: true, error: null })
         try {
-          const res = await fetch(`${API_URL}/auth/login`, {
+          const res = await fetch(buildApiUrl('/auth/login'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
           })
 
-          const data = await res.json()
+          const data = await parseApiResponse(res)
 
           if (!res.ok) {
             throw new Error(data.error || 'Login failed')
@@ -80,13 +79,13 @@ export const useDealerStore = create<DealerState>()(
       register: async (data: RegisterData) => {
         set({ isLoading: true, error: null })
         try {
-          const res = await fetch(`${API_URL}/auth/register`, {
+          const res = await fetch(buildApiUrl('/auth/register'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
           })
 
-          const responseData = await res.json()
+          const responseData = await parseApiResponse(res)
 
           if (!res.ok) {
             throw new Error(responseData.error || 'Registration failed')

@@ -6,8 +6,7 @@ import { usePropertyStore, type Property } from '@/store/usePropertyStore'
 import { formatPrice } from '@/utils/price'
 import { emailLink, whatsappLink } from '@/config/contact'
 import CONTACT from '@/config/contact'
-
-const API_URL = import.meta.env.VITE_API_URL
+import { buildApiUrl, parseApiResponse } from '@/config/api'
 
 export default function PropertyDetails() {
   const { id } = useParams<{ id: string }>()
@@ -40,8 +39,8 @@ export default function PropertyDetails() {
     // Fetch from API
     const fetchProperty = async () => {
       try {
-        const res = await fetch(`${API_URL}/properties/${id}`)
-        const data = await res.json()
+        const res = await fetch(buildApiUrl(`/properties/${id}`))
+        const data = await parseApiResponse(res)
 
         if (!res.ok) {
           throw new Error(data.error || 'Property not found')

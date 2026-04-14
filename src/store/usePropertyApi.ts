@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { useDealerStore } from './useDealerStore'
+import { buildApiUrl, parseApiResponse } from '@/config/api'
 
 export interface PropertyImage {
   url: string
@@ -59,8 +60,6 @@ interface PropertyState {
   clearSuccess: () => void
 }
 
-const API_URL = import.meta.env.VITE_API_URL
-
 export const usePropertyApi = create<PropertyState>((set) => ({
   properties: [],
   allProperties: [],
@@ -72,7 +71,7 @@ export const usePropertyApi = create<PropertyState>((set) => ({
     set({ isLoading: true, error: null })
 
     // Build URL with query params
-    const url = new URL(`${API_URL}/properties`)
+    const url = new URL(buildApiUrl('/properties'))
     if (queryParams) {
       Object.entries(queryParams).forEach(([key, value]) => {
         if (value) url.searchParams.append(key, value)
@@ -81,7 +80,7 @@ export const usePropertyApi = create<PropertyState>((set) => ({
 
     try {
       const res = await fetch(url.toString())
-      const data = await res.json()
+      const data = await parseApiResponse(res)
 
       if (!res.ok) {
         throw new Error(data.error || 'Failed to fetch properties')
@@ -115,7 +114,7 @@ export const usePropertyApi = create<PropertyState>((set) => ({
 
     set({ isLoading: true, error: null })
     try {
-      const res = await fetch(`${API_URL}/uploads/images`, {
+      const res = await fetch(buildApiUrl('/uploads/images'), {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -123,7 +122,7 @@ export const usePropertyApi = create<PropertyState>((set) => ({
         body: formData,
       })
 
-      const responseData = await res.json()
+      const responseData = await parseApiResponse(res)
 
       if (!res.ok) {
         throw new Error(responseData.error || 'Failed to upload images')
@@ -149,7 +148,7 @@ export const usePropertyApi = create<PropertyState>((set) => ({
 
     set({ isLoading: true, error: null })
     try {
-      const res = await fetch(`${API_URL}/uploads/video`, {
+      const res = await fetch(buildApiUrl('/uploads/video'), {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -157,7 +156,7 @@ export const usePropertyApi = create<PropertyState>((set) => ({
         body: formData,
       })
 
-      const responseData = await res.json()
+      const responseData = await parseApiResponse(res)
 
       if (!res.ok) {
         throw new Error(responseData.error || 'Failed to upload video')
@@ -230,7 +229,7 @@ export const usePropertyApi = create<PropertyState>((set) => ({
     requestBody.petFriendly = data.petFriendly || false
 
     try {
-      const res = await fetch(`${API_URL}/properties`, {
+      const res = await fetch(buildApiUrl('/properties'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -239,7 +238,7 @@ export const usePropertyApi = create<PropertyState>((set) => ({
         body: JSON.stringify(requestBody),
       })
 
-      const responseData = await res.json()
+      const responseData = await parseApiResponse(res)
 
       if (!res.ok) {
         throw new Error(responseData.error || 'Failed to create property')
@@ -267,7 +266,7 @@ export const usePropertyApi = create<PropertyState>((set) => ({
 
     set({ isLoading: true, error: null })
     try {
-      const res = await fetch(`${API_URL}/properties/${id}`, {
+      const res = await fetch(buildApiUrl(`/properties/${id}`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -276,7 +275,7 @@ export const usePropertyApi = create<PropertyState>((set) => ({
         body: JSON.stringify(data),
       })
 
-      const responseData = await res.json()
+      const responseData = await parseApiResponse(res)
 
       if (!res.ok) {
         throw new Error(responseData.error || 'Failed to update property')
@@ -303,14 +302,14 @@ export const usePropertyApi = create<PropertyState>((set) => ({
 
     set({ isLoading: true, error: null })
     try {
-      const res = await fetch(`${API_URL}/properties/${id}`, {
+      const res = await fetch(buildApiUrl(`/properties/${id}`), {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
 
-      const data = await res.json()
+      const data = await parseApiResponse(res)
 
       if (!res.ok) {
         throw new Error(data.error || 'Failed to delete property')
@@ -348,7 +347,7 @@ export const usePropertyApi = create<PropertyState>((set) => ({
 
     set({ isLoading: true, error: null })
     try {
-      const res = await fetch(`${API_URL}/properties/${id}/status`, {
+      const res = await fetch(buildApiUrl(`/properties/${id}/status`), {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -357,7 +356,7 @@ export const usePropertyApi = create<PropertyState>((set) => ({
         body: JSON.stringify({ status: newStatus }),
       })
 
-      const responseData = await res.json()
+      const responseData = await parseApiResponse(res)
 
       if (!res.ok) {
         throw new Error(responseData.error || 'Failed to update status')
