@@ -59,7 +59,7 @@ interface PropertyState {
   clearSuccess: () => void
 }
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api'
+const API_URL = import.meta.env.VITE_API_URL
 
 export const usePropertyApi = create<PropertyState>((set) => ({
   properties: [],
