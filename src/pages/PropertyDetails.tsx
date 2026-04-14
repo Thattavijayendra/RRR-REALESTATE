@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { cn } from '@/utils/cn'
 import { usePropertyStore, type Property } from '@/store/usePropertyStore'
-import { formatPrice, formatPriceShort } from '@/utils/price'
+import { formatPrice } from '@/utils/price'
 import { emailLink, whatsappLink } from '@/config/contact'
 import CONTACT from '@/config/contact'
 
@@ -59,14 +59,7 @@ export default function PropertyDetails() {
     fetchProperty()
   }, [id, properties])
 
-  const displayPrice = (price: number) => formatPrice(price)
-
-  const statusColors: Record<string, string> = {
-    'For Sale': 'bg-emerald-50 text-emerald-700',
-    'For Rent': 'bg-blue-50 text-blue-700',
-    Sold: 'bg-slate-200 text-slate-700',
-    Pending: 'bg-amber-50 text-amber-700',
-  }
+  // price formatting is handled inline via `formatPrice(...)`
 
   const getYoutubeId = (url: string): string => {
     const match = url.match(/(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/)

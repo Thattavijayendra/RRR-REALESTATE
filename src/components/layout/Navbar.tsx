@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/utils/cn'
-import CONTACT from '@/config/contact'
 
 const navLinks = [
   { path: '/', label: 'Home' },

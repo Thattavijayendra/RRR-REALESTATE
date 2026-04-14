@@ -1,10 +1,9 @@
 import { motion } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
 import { cn } from '@/utils/cn'
-import CONTACT, { whatsappLink } from '@/config/contact'
+import CONTACT from '@/config/contact'
 import { useEffect } from 'react'
 import { usePropertyApi } from '@/store/usePropertyApi'
-import { useState } from 'react'
 
 import { formatPriceShort } from '@/utils/price'
 
@@ -35,7 +34,6 @@ export default function ChanceProperties() {
   // select atoms separately to avoid recreating selector object and infinite update loops
   const properties = usePropertyApi((s) => s.properties)
   const fetchProperties = usePropertyApi((s) => s.fetchProperties)
-  const isLoading = usePropertyApi((s) => s.isLoading)
 
   const locationLabel = (location: string | any) =>
     typeof location === 'string'
