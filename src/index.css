@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ivory text-charcoal antialiased;
+    background: #f4f6f8;
+  }
+
+  ::selection {
+    background: rgba(37, 99, 235, 0.18);
+    color: #111827;
+  }
+}
+
+@layer components {
+  .luxury-shell {
+    @apply relative;
+  }
+
+  .section-heading {
+    @apply text-2xl font-semibold leading-tight tracking-tight text-slate-900 sm:text-3xl lg:text-4xl;
+  }
+
+  .section-kicker {
+    @apply text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-slate-500;
+  }
+
+  .section-copy {
+    @apply text-sm leading-6 text-slate-600 sm:text-base;
+  }
+
+  .luxury-card {
+    @apply rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-200;
+  }
+
+  .luxury-card-hover {
+    @apply hover:border-slate-300 hover:shadow-md;
+  }
+
+  .luxury-button-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-blue-600 bg-blue-600 px-5 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-white transition-all duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-2;
+  }
+
+  .luxury-button-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-slate-700 transition-all duration-200 hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200 focus:ring-offset-2;
+  }
+
+  .luxury-input {
+    @apply w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 transition-all duration-200 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100;
+  }
+}
